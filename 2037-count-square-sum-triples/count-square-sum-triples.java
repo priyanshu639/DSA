@@ -1,18 +1,23 @@
 class Solution {
     public int countTriples(int n) {
-        int count = 0;
-
-        for (int a = 1; a <= n; a++) {
-            for (int b = 1; b <= n; b++) {
-                int c2 = a * a + b * b;
-                int c = (int) Math.sqrt(c2);
-
-                if (c <= n && c * c == c2) { // check perfect square and c ≤ n
-                    count++;
-                }
-            }
+        int arr[] = new int[n];
+        for(int i = 1 ;i <= n;i++){
+            arr[i-1]=i*i;
         }
+        for(int i = 0 ;i < n;i++){
+           System.out.print(arr[i]+" ");
+        }
+        int count = 0;
+        for(int i = 0 ; i < arr.length ; i++){
+            for(int j = i + 1; j<arr.length; j++){
+                for(int k = j + 1 ; k < arr.length ; k++){
+                    if(arr[i] + arr[j] == arr[k]) count+=2;
+                }
 
+            }
+            
+        }
         return count;
+        
     }
 }
