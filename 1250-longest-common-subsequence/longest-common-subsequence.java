@@ -1,24 +1,28 @@
 class Solution {
-    public int helper(int m,int n,String text1, String text2,int dp[][]){
-        if(m==0 || n==0) return 0;
-        if(dp[m][n]!=-1) return dp[m][n];
-        if(text1.charAt(m-1)==(text2.charAt(n-1))){
-            return 1 + helper(m-1,n-1,text1,text2,dp);
-        }
-       
-        return dp[m][n]=Math.max(helper(m,n-1,text1,text2,dp),helper(m-1,n,text1,text2,dp));
-       
-    }
+    
     public int longestCommonSubsequence(String text1, String text2) {
         int m=text1.length();
         int n=text2.length();
 
         int dp[][]=new int[m+1][n+1];
+        // TABULATION APPROACH
         for(int i=0;i<dp.length;i++){
-            Arrays.fill(dp[i],-1);
+            for(int j=0;j<dp[0].length;j++){
+                if(i==0 || j==0 ) dp[i][j]=0;
+                else {
+                    if(text1.charAt(i-1)==text2.charAt(j-1)){
+                        dp[i][j] = 1 + dp[i-1][j-1];
+                    }
+                    else{
+                        dp[i][j]=Math.max(dp[i-1][j],dp[i][j-1]);
+                }
+                }
+
+            }
+            
         }
 
-        return helper(m,n,text1,text2,dp);
+        return dp[m][n];
         
     }
 }
