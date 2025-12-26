@@ -1,22 +1,19 @@
 class Solution {
-    // BRUTE FORCE HAR EK INDEX PE JAO AUR USKA LEFT SUM AUR USKA RIGHT SUM CALCULATE KARO AUR AGAR WO EQAUL H TO  WO RETURN KARDO USKA INDEX NHI TO -1 ;
+    // using prefix sum 
     public int pivotIndex(int[] nums) {
-        
-    
-        for(int i=0;i<nums.length;i++){
-            int leftsum=0 ; 
-            int rightsum=0;
-            for(int j=0;j<i;j++){
-                leftsum+=nums[j];
-            }
-            for(int k=i+1;k<nums.length;k++){
-                rightsum+=nums[k];
-
-
-            }
-            if(leftsum==rightsum) return i;
+        int prefix[]=new int[nums.length];
+        prefix[0]=nums[0];
+        int leftsum=0;
+        int rightsum=0;
+        for(int i=1;i<nums.length;i++){
+            prefix[i]=nums[i]+prefix[i-1];      
         }
-       
+        for(int i=0;i<nums.length;i++){
+            if(i>0)leftsum=prefix[i-1];
+            rightsum=prefix[nums.length-1]-prefix[i];
+            if(leftsum==rightsum) return i;
+            
+        }
         
         return -1;
     }
