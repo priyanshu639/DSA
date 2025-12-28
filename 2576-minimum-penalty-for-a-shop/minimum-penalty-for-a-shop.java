@@ -1,36 +1,30 @@
 class Solution {
-
     public int bestClosingTime(String customers) {
-        int curPenalty = 0;
-        for (int i = 0; i < customers.length(); i++) {
-            if (customers.charAt(i) == 'Y') {
-                curPenalty++;
-            }
+        int n=customers.length();
+        int prefix[]=new int[n+1];
+        for(int i=1;i<=n;i++){
+            
+            prefix[i]=prefix[i-1];
+            if(customers.charAt(i-1)=='N') prefix[i]+=1;
         }
-
-        // Start with closing at hour 0, the penalty equals all 'Y' in closed hours.
-        int minPenalty = curPenalty;
-        int earliestHour = 0;
-
-        for (int i = 0; i < customers.length(); i++) {
-            char ch = customers.charAt(i);
-
-            // If status in hour i is 'Y', moving it to open hours decrement
-            // penalty by 1. Otherwise, moving 'N' to open hours increment
-            // penatly by 1.
-            if (ch == 'Y') {
-                curPenalty--;
-            } else {
-                curPenalty++;
-            }
-
-            // Update earliestHour if a smaller penatly is encountered.
-            if (curPenalty < minPenalty) {
-                earliestHour = i + 1;
-                minPenalty = curPenalty;
-            }
+        int suffix[]=new int[n+1];
+        for(int i=n-1;i>=0;i--){
+            
+            suffix[i]=suffix[i+1];
+            if(customers.charAt(i)=='Y') suffix[i]+=1;
         }
-
-        return earliestHour;
+        int penalty[]=new int[n+1];
+        int min=Integer.MAX_VALUE;
+        for(int i=0;i<=n;i++){
+            penalty[i]=suffix[i]+prefix[i];
+            min=Math.min(min,penalty[i]);
+        }
+        
+        for(int i=0;i<=n;i++){
+            if(penalty[i]==min) return i;
+            
+            
+        }
+        return 9584903;
     }
 }
