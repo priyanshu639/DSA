@@ -16,7 +16,8 @@ class Solution {
             temp=temp.next;
             len++;
         }
-        if(len==1) return null;
+        if(len==1) return null;//ye line nhi likhoge tp bhu ch jayega ye head.next wala handled kr lega
+        
         // agar len aur n eqaula h it means head ko delete karn h
         if(len==n) {
             head=head.next;
