@@ -9,27 +9,24 @@
  * }
  */
 class Solution {
+    // Method 2 (Slow Fast approach)
     public ListNode removeNthFromEnd(ListNode head, int n) {
-        int len=0;
-        ListNode temp=head;
-        while(temp!=null){
-            temp=temp.next;
-            len++;
+        // put slow and fast at head then move fast to n th position from start then move slow anf fast together one one step 
+
+        ListNode slow=head;
+        ListNode fast=head;
+        for(int i=0;i<n;i++){
+            fast=fast.next;
         }
-        if(len==1) return null;//ye line nhi likhoge tp bhu ch jayega ye head.next wala handled kr lega
-        
-        // agar len aur n eqaula h it means head ko delete karn h
-        if(len==n) {
-            head=head.next;
-            return head;
+        if(fast==null) return head.next;
+        // now fast is at nth postion from start
+
+        while(fast.next!=null){
+            slow=slow.next;
+            fast=fast.next;
         }
-        int m=len-n; // ye previous node h 
-        ListNode x=head;
-        for(int i=1;i<=m-1;i++){
-            x=x.next;
-        }
-        // abb x jo h wo prev pe h
-        x.next=x.next.next;
+        // now delte the slow.next wala node
+        slow.next=slow.next.next;
         return head;
 
         
