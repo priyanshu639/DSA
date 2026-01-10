@@ -9,22 +9,18 @@
  * }
  */
 class Solution {
+    // method two 
+    // one pass solution and also  without calculating length;
     public ListNode middleNode(ListNode head) {
-        int size=0;
-        ListNode temp=head;
-        while(temp!=null){
-            temp=temp.next;
-            size++;
-        }
-        int mid=size/2 + 1;
         
-        ListNode x=head;
-        for(int i=1;i<=mid-1;i++){
-            x=x.next;
-
+        ListNode slow=head;
+        ListNode fast=head;
+        while(fast!=null && fast.next!=null){
+            slow=slow.next;
+            fast=fast.next.next;
         }
-
-        return x;
+    
+        return slow;
         
     }
 }
