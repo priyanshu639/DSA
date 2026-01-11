@@ -9,21 +9,14 @@
  * }
  */
 class Solution {
+    // RECURSIVE APPROACH 
     public ListNode reverseList(ListNode head) {
-        
-        ListNode prev=null;
-        ListNode curr=head;
-        ListNode Next=head;//yaha pe Next=null tab bhi chalega 
-        
-        while(curr!=null){
-            Next=curr.next;
-            
-            curr.next=prev;
-            prev=curr;
-            curr=Next;
-            
-        }
-        return prev;
+        if(head==null||head.next==null)return head;
+        ListNode A=head.next;
+        ListNode newhead=reverseList(A);
+        A.next=head;
+        head.next=null;
+        return newhead;
         
     }
 }
