@@ -8,8 +8,21 @@ class Solution {
         for(int i=0;i<edges.length;i++){
             int u=edges[i][0];
             int v=edges[i][1];
-            map.put(u,map.getOrDefault(u,0)+1);
-            map.put(v,map.getOrDefault(v,0)+1);
+            if(map.containsKey(u)){
+                map.put(u,map.get(u)+1);
+
+            }
+            else{
+                map.put(u,1);
+            }
+            if(map.containsKey(v)){
+                map.put(v,map.get(v)+1);
+
+            }
+            else{
+                map.put(v,1);
+            }
+            
 
         }
         int n=map.size();
