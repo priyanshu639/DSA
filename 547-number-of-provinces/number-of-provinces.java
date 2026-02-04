@@ -6,13 +6,26 @@ class Solution {
 
         for(int i=0;i<n;i++){
             if(!visited[i]){
-                bfs(i,visited,isConnected);
+                // bfs(i,visited,isConnected);
+                dfs(i,visited,isConnected);
                 count++;
             }
 
         }
         return count;
     }
+
+     void dfs(int i,boolean visited[],int isConnected[][]){
+            visited[i]=true;
+            for(int j=0;j<isConnected.length;j++){
+                if(isConnected[i][j]==1 &&!visited[j]){
+                    dfs(j,visited,isConnected);
+                }
+                    
+            }
+
+
+     }
          void bfs(int i,boolean visited[],int isConnected[][]){
             visited[i]=true;
             Queue<Integer>q=new LinkedList<>();
