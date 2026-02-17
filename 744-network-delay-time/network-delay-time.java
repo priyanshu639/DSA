@@ -1,56 +1,61 @@
 class Solution {
     class Pair implements Comparable<Pair>{
         int node;
-        int distance;
-        Pair(int node,int distance){
+        int wt;
+        
+        Pair(int node,int wt){
             this.node=node;
-            this.distance=distance;
+            this.wt=wt;
+            
         }
         public int compareTo(Pair other){
-            return this.distance-other.distance;
+            return this.wt-other.wt;
         }
-
     }
     public int networkDelayTime(int[][] times, int n, int k) {
+        // create adj list
         List<List<Pair>>adj=new ArrayList<>();
         for(int i=0;i<=n;i++){
             adj.add(new ArrayList<>());
         }
-        //convert it to adjacency list
         for(int i=0;i<times.length;i++){
             int u=times[i][0];
             int v=times[i][1];
             int w=times[i][2];
             adj.get(u).add(new Pair(v,w));
-
-
+            
         }
-        int cost[]=new int[n+1];
-        Arrays.fill(cost,Integer.MAX_VALUE);
-        cost[k]=0;
+        int dist[]=new int[n+1];
+        Arrays.fill(dist,Integer.MAX_VALUE);
+        dist[k]=0;
         PriorityQueue<Pair>pq=new PriorityQueue<>();
         pq.add(new Pair(k,0));
+        
+
+        
         while(pq.size()>0){
             Pair top=pq.remove();
-            for(Pair ele:adj.get(top.node)){
-                int totaldis=top.distance+ele.distance;
-                if(totaldis<cost[ele.node]){
-                    cost[ele.node]=totaldis;
-                    pq.add(new Pair(ele.node,totaldis));
-                    
-                }
-
-            }
+            int node=top.node;
+            int wt=top.wt;
             
+            for(Pair ele:adj.get(node)){
+                int totalwt=wt+ele.wt;
+                if(wt > dist[node]) continue;
+
+                if(totalwt<dist[ele.node]){
+                    dist[ele.node]=totalwt;
+                    pq.add(new Pair(ele.node,totalwt));
+                }
+            }
 
         }
-        int ans=0;
-        for(int i=1;i<=n;i++){
-            if(cost[i]==Integer.MAX_VALUE) return -1;
-            ans=Math.max(ans,cost[i]);
+        int max=0;
+        for(int i=1;i<dist.length;i++){
+            max=Math.max(dist[i],max);
 
         }
-        return ans;
+        if(max==Integer.MAX_VALUE) return -1;
+        return max;
 
 
         
