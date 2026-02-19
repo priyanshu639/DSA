@@ -1,53 +1,58 @@
 class Solution {
-    public int findCircleNum(int[][] isConnected) {
-        int n=isConnected.length;
-        boolean visited[]=new boolean[n];
-        int count=0;
+    void union(int u,int v,int par[],int rank[]){
 
-        for(int i=0;i<n;i++){
-            if(!visited[i]){
-                // bfs(i,visited,isConnected);
-                dfs(i,visited,isConnected);
-                count++;
+            int ultimateParent_U=find(u,par);
+            int ultimateParent_V=find(v,par);
+
+            if(ultimateParent_U==ultimateParent_V) return;
+
+            if(rank[ultimateParent_U]>rank[ultimateParent_V]){
+                par[ultimateParent_V]=ultimateParent_U;
             }
+
+            else if(rank[ultimateParent_U]<rank[ultimateParent_V]){
+                par[ultimateParent_U]=ultimateParent_V;
+            }
+
+            else {
+                par[ultimateParent_U]=ultimateParent_V;
+                rank[ultimateParent_V]++;
+            }
+
 
         }
-        return count;
-    }
+        public int find(int x,int par[]){
+            if(par[x]==x) return x;
+            return par[x]=find(par[x],par);
 
-     void dfs(int i,boolean visited[],int isConnected[][]){
-            visited[i]=true;
-            for(int j=0;j<isConnected.length;j++){
-                if(isConnected[i][j]==1 &&!visited[j]){
-                    dfs(j,visited,isConnected);
+        }
+    public int findCircleNum(int[][] isConnected) {
+        int n=isConnected.length;
+        int par[]=new int[n];
+        int rank[]=new int[n];
+        for(int i=0;i<n;i++){
+            par[i]=i;
+            rank[i]=0;
+        }
+
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                if (isConnected[i][j] == 1) {
+                    union(i, j, par, rank);
                 }
-                    
             }
-
-
-     }
-         void bfs(int i,boolean visited[],int isConnected[][]){
-            visited[i]=true;
-            Queue<Integer>q=new LinkedList<>();
-            q.add(i);
-            while(q.size()>0){
-                int front= q.remove();
-                // colum me traverse kr ke dekho ki koi 1 h 
-                 for(int j=0;j<isConnected.length;j++){
-                    if(isConnected[front][j]==1 &&!visited[j]){
-                        q.add(j);
-                        visited[j]=true;
-                    }
-                    
-                }
-
-
-            }
-        //    time complexity for bfs(adjacency matrix) is worst case o(n^2);
-        // general time complexity would be in adjacency list o(V+2E); 
-            
-
-         
+        }
         
+        
+        
+
+         int count = 0;
+        for (int i = 0; i < n; i++) {
+            if (par[i] == i) count++;
+        }
+
+             
+        
+        return count;
     }
 }
