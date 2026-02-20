@@ -1,8 +1,7 @@
 class Solution {
     // using kruskal algo(usind DSU)
-    // tc edges ke liye hi n2 lag ja raha h and pq.add karne ke liye log n lag ja rhe hai
-    // (n2logn) tc for this 
-    // if you are using arraylist inplace of priorityqueue then TC =O(n2);
+    
+    //  TC =O(n2) but the tc for sorting is O(n2logn);
     static int parent[];
     static int size[];
     class Triplet implements Comparable<Triplet>{
@@ -47,7 +46,7 @@ class Solution {
             parent[i]=i;
             size[i]=1;
         }
-        PriorityQueue<Triplet>pq=new PriorityQueue<>();
+        ArrayList<Triplet>list=new ArrayList<>();
         for(int u=0;u<n;u++){
             for(int v=u+1;v<n;v++){
                 int x1=points[u][0];
@@ -55,12 +54,13 @@ class Solution {
                 int x2=points[v][0];
                 int y2=points[v][1];
                 int dist=Math.abs(x1-x2)+Math.abs(y1-y2);
-                pq.add(new Triplet(u,v,dist));
+                list.add(new Triplet(u,v,dist));
             }
         }
+        Collections.sort(list);
         int cost=0;
-        while(pq.size()>0){
-            Triplet top=pq.remove();
+        for(int i=0;i<list.size();i++){
+            Triplet top=list.get(i);
             int u=top.u;
             int v=top.v;
             int dist=top.dis;
