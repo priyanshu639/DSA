@@ -1,28 +1,30 @@
-import java.util.Stack;
-
 class Solution {
     public boolean isValid(String s) {
-        Stack<Character> stack = new Stack<>();
-        
-        for (char ch : s.toCharArray()) {
-            // If opening bracket, push it
-            if (ch == '(' || ch == '{' || ch == '[') {
-                stack.push(ch);
-            } 
-            // If closing bracket, check for match
-            else {
-                if (stack.isEmpty()) return false;
-                char top = stack.pop();
-                if ((ch == ')' && top != '(') ||
-                    (ch == '}' && top != '{') ||
-                    (ch == ']' && top != '[')) {
-                    return false;
+        Stack<Character>st=new Stack<>();
+        int n=s.length();
+        if(n%2!=0) return false;
+        for(int i=0;i<n;i++){
+            char ch=s.charAt(i);
+            if(ch=='(' || ch=='{' || ch=='['){
+                st.push(ch);
+            }
+            else{
+                if(st.size()==0) return false;
+                if(st.peek()=='(' && ch==')' ||st.peek()=='[' && ch==']'||st.peek()=='{' && ch=='}') st.pop();
+                 else {
+                    return false; 
                 }
+                
+                
+                
+                
+
+
             }
         }
+        if(st.size()==0)return true;
+        return false;
+
         
-        // All brackets must be closed
-        return stack.isEmpty();
     }
 }
-
