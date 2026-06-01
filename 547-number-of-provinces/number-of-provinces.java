@@ -1,58 +1,34 @@
 class Solution {
-    void union(int u,int v,int par[],int rank[]){
+    public void bfs(int i ,boolean vis[],int isConnected[][]){
+        
+        Queue<Integer> q=new LinkedList<>();
+        vis[i]=true;
+        q.add(i);
+        while(q.size()>0){
+            int top=q.remove();
+            for(int j =0; j<isConnected.length;j++){
+                if(isConnected[top][j]==1 && !vis[j]){
+                    q.add(j);
+                    vis[j]=true;
 
-            int ultimateParent_U=find(u,par);
-            int ultimateParent_V=find(v,par);
-
-            if(ultimateParent_U==ultimateParent_V) return;
-
-            if(rank[ultimateParent_U]>rank[ultimateParent_V]){
-                par[ultimateParent_V]=ultimateParent_U;
-            }
-
-            else if(rank[ultimateParent_U]<rank[ultimateParent_V]){
-                par[ultimateParent_U]=ultimateParent_V;
-            }
-
-            else {
-                par[ultimateParent_U]=ultimateParent_V;
-                rank[ultimateParent_V]++;
-            }
-
-
-        }
-        public int find(int x,int par[]){
-            if(par[x]==x) return x;
-            return par[x]=find(par[x],par);
-
-        }
-    public int findCircleNum(int[][] isConnected) {
-        int n=isConnected.length;
-        int par[]=new int[n];
-        int rank[]=new int[n];
-        for(int i=0;i<n;i++){
-            par[i]=i;
-            rank[i]=0;
-        }
-
-        for (int i = 0; i < n; i++) {
-            for (int j = i + 1; j < n; j++) {
-                if (isConnected[i][j] == 1) {
-                    union(i, j, par, rank);
                 }
             }
         }
-        
-        
-        
+    }
+    public int findCircleNum(int[][] isConnected) {
+        int n=isConnected.length;
 
-         int count = 0;
-        for (int i = 0; i < n; i++) {
-            if (par[i] == i) count++;
+        boolean vis[]=new boolean[n];
+        int count=0;
+        for(int i=0;i<vis.length;i++){
+            
+                if(!vis[i]){
+                    bfs(i,vis,isConnected);
+                    count++;
+                }
+            
         }
-
-             
-        
         return count;
+        
     }
 }
